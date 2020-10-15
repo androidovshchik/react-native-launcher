@@ -1,0 +1,31 @@
+# Android/IJ
+#
+.idea
+.gradle
+local.properties
+*.iml
+build
+captures
+gradle
+gradlew
+gradlew.bat
+/*.gradle
+gradle.properties
+
+# node.js
+#
+node_modules/
+npm-debug.log
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+
+# OSX
+#
+.DS_Store
+
+# Example files
+#
+example/

@@ -1,0 +1,27 @@
+{
+  "name": "react-native-launcher",
+  "version": "0.0.1",
+  "description": "App launcher",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/androidovshchik/react-native-launcher.git"
+  },
+  "keywords": [
+    "react",
+    "native",
+    "alarm",
+    "launcher",
+    "android",
+    "react-native"
+  ],
+  "author": "Vlad Kalyuzhnyu",
+  "bugs": {
+    "url": "https://github.com/androidovshchik/react-native-launcher/issues"
+  },
+  "homepage": "https://github.com/androidovshchik/react-native-launcher#readme"
+}
