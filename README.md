@@ -40,6 +40,8 @@ import LauncherPlugin from 'react-native-launcher';
 
 An example of usage is [here](https://github.com/androidovshchik/react-native-launcher/blob/master/example/App.tsx)
 
+*NOTICE* that `delay` param works as a delayed time and as a unique identifier
+
 ### Credits
 
 Author [Vlad Kalyuzhnyu](https://github.com/androidovshchik)
