@@ -1,12 +1,26 @@
 package defpackage.example
 
+import android.content.Intent
+import android.os.Bundle
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 
 class MainDelegate(activity: ReactActivity, mainComponentName: String?) :
     ReactActivityDelegate(activity, mainComponentName) {
 
-    override fun getLaunchOptions() = plainActivity.intent.extras
+    private var params: Bundle? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        params = plainActivity.intent.extras
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onNewIntent(intent: Intent?): Boolean {
+        params = intent?.extras
+        return super.onNewIntent(intent)
+    }
+
+    override fun getLaunchOptions() = params
 }
 
 class MainActivity : ReactActivity() {
