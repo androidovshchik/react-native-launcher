@@ -38,6 +38,8 @@ Import
 import LauncherPlugin from 'react-native-launcher';
 ```
 
+An example of usage is [here](https://github.com/androidovshchik/react-native-launcher/blob/master/example/App.tsx)
+
 ### Credits
 
 Author [Vlad Kalyuzhnyu](https://github.com/androidovshchik)

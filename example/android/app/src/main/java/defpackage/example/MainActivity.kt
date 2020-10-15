@@ -1,6 +1,14 @@
 package defpackage.example
 
+import android.os.Bundle
 import com.facebook.react.ReactActivity
+import com.facebook.react.ReactActivityDelegate
+
+class MainDelegate(activity: ReactActivity, mainComponentName: String?) :
+    ReactActivityDelegate(activity, mainComponentName) {
+
+    override fun getLaunchOptions() = plainActivity.intent.extras
+}
 
 class MainActivity : ReactActivity() {
 
@@ -9,4 +17,8 @@ class MainActivity : ReactActivity() {
      * rendering of the component.
      */
     override fun getMainComponentName() = "example"
+
+    override fun createReactActivityDelegate(): ReactActivityDelegate {
+        return MainDelegate(this, mainComponentName)
+    }
 }

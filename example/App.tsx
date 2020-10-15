@@ -9,12 +9,14 @@
  */
 
 import React, {Component} from 'react';
-import {BackHandler, Button, StyleSheet, View,} from 'react-native';
+import {BackHandler, Button, StyleSheet, ToastAndroid, View,} from 'react-native';
 import LauncherPlugin from 'react-native-launcher';
 
 class App extends Component {
 
     render() {
+        console.log(this.props);
+        ToastAndroid.show(JSON.stringify(this.props, null, 2), ToastAndroid.LONG);
         return (
             <View style={styles.container}>
                 <View style={[styles.button, {marginTop: 16}]}>
