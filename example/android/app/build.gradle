@@ -185,8 +185,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation project(":react-native-shared-preferences")
-    implementation project(":react-native-todorant-widget")
+    implementation project(":react-native-launcher")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
