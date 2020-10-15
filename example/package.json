@@ -1,0 +1,22 @@
+{
+  "name": "todorant_widget",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "react-native start",
+    "android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && react-native run-android"
+  },
+  "dependencies": {
+    "react": "16.13.1",
+    "react-native": "0.63.2",
+    "react-native-shared-preferences": "^1.0.2",
+    "react-native-todorant-widget": "0.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/runtime": "^7.8.4",
+    "@types/react-native": "^0.63.2",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "typescript": "^3.8.3"
+  }
+}
