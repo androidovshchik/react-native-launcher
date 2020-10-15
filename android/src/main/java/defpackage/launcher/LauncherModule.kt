@@ -7,8 +7,8 @@ import androidx.core.app.AlarmManagerCompat
 import com.facebook.react.bridge.*
 import org.jetbrains.anko.alarmManager
 import org.jetbrains.anko.intentFor
-import kotlin.math.min
 
+@Suppress("unused")
 class LauncherModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
 
@@ -16,20 +16,19 @@ class LauncherModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun openExact(delay: Int, map: ReadableMap?) {
-        val bootTime = SystemClock.elapsedRealtime()
         with(reactApplicationContext) {
             AlarmManagerCompat.setExact(
                 alarmManager,
                 AlarmManager.ELAPSED_REALTIME,
-                bootTime + delay,
+                SystemClock.elapsedRealtime() + delay,
                 pendingReceiverFor(
                     intentFor<LauncherReceiver>().apply {
-                        data = Uri.parse("$packageName://$bootTime")
+                        data = Uri.parse("$packageName://$delay")
                         if (map != null) {
                             putExtras(Arguments.toBundle(map)!!)
                         }
                     },
-                    min(bootTime, Int.MAX_VALUE.toLong()).toInt()
+                    delay
                 )
             )
         }
@@ -37,20 +36,19 @@ class LauncherModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun openAndAllowWhileIdle(delay: Int, map: ReadableMap?) {
-        val bootTime = SystemClock.elapsedRealtime()
         with(reactApplicationContext) {
             AlarmManagerCompat.setExact(
                 alarmManager,
                 AlarmManager.ELAPSED_REALTIME,
-                bootTime + delay,
+                SystemClock.elapsedRealtime() + delay,
                 pendingReceiverFor(
                     intentFor<LauncherReceiver>().apply {
-                        data = Uri.parse("$packageName://$bootTime")
+                        data = Uri.parse("$packageName://$delay")
                         if (map != null) {
                             putExtras(Arguments.toBundle(map)!!)
                         }
                     },
-                    min(bootTime, Int.MAX_VALUE.toLong()).toInt()
+                    delay
                 )
             )
         }
@@ -58,20 +56,36 @@ class LauncherModule(reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun openExactAndAllowWhileIdle(delay: Int, map: ReadableMap?) {
-        val bootTime = SystemClock.elapsedRealtime()
         with(reactApplicationContext) {
             AlarmManagerCompat.setExact(
                 alarmManager,
                 AlarmManager.ELAPSED_REALTIME,
-                bootTime + delay,
+                SystemClock.elapsedRealtime() + delay,
                 pendingReceiverFor(
                     intentFor<LauncherReceiver>().apply {
-                        data = Uri.parse("$packageName://$bootTime")
+                        data = Uri.parse("$packageName://$delay")
                         if (map != null) {
                             putExtras(Arguments.toBundle(map)!!)
                         }
                     },
-                    min(bootTime, Int.MAX_VALUE.toLong()).toInt()
+                    delay
+                )
+            )
+        }
+    }
+
+    @ReactMethod
+    fun cancelOpen(delay: Int, map: ReadableMap?) {
+        with(reactApplicationContext) {
+            alarmManager.cancel(
+                pendingReceiverFor(
+                    intentFor<LauncherReceiver>().apply {
+                        data = Uri.parse("$packageName://$delay")
+                        if (map != null) {
+                            putExtras(Arguments.toBundle(map)!!)
+                        }
+                    },
+                    delay
                 )
             )
         }
