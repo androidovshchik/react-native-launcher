@@ -10,7 +10,12 @@ class LauncherReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
         with(context) {
             packageManager.getLaunchIntentForPackage(packageName)?.let {
-                startActivity(it.putExtra("launcher", true).newTask())
+                startActivity(it.apply {
+                    if (intent != null) {
+                        putExtras(intent)
+                    }
+                    newTask()
+                })
             }
         }
     }

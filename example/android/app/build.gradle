@@ -130,7 +130,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.todorant.example"
+        applicationId "defpackage.example"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

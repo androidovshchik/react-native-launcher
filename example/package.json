@@ -1,5 +1,5 @@
 {
-  "name": "todorant_widget",
+  "name": "example",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,8 +9,7 @@
   "dependencies": {
     "react": "16.13.1",
     "react-native": "0.63.2",
-    "react-native-shared-preferences": "^1.0.2",
-    "react-native-todorant-widget": "0.1.1"
+    "react-native-launcher": "0.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
