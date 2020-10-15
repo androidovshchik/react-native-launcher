@@ -9,63 +9,39 @@
  */
 
 import React, {Component} from 'react';
-import {BackHandler, Button, StyleSheet, TextInput, View,} from 'react-native';
-import SharedPreferences from 'react-native-shared-preferences';
-import TodorantWidget from 'react-native-todorant-widget';
+import {BackHandler, Button, StyleSheet, View,} from 'react-native';
+import LauncherPlugin from 'react-native-launcher';
 
 class App extends Component {
-
-    state = {
-        token: '',
-        password: '',
-    }
-
-    constructor(props: any) {
-        super(props)
-        SharedPreferences.getItem("token", value => {
-            this.setState({token: value})
-        })
-        SharedPreferences.getItem("password", value => {
-            this.setState({password: value})
-        })
-    }
 
     render() {
         return (
             <View style={styles.container}>
-                <TextInput
-                    style={{height: 40, borderColor: 'gray', borderWidth: 1, margin: 16}}
-                    placeholder="Type token"
-                    onChangeText={value => this.setState({token: value})}
-                    value={this.state.token}/>
-                <TextInput
-                    style={{height: 40, borderColor: 'gray', borderWidth: 1, margin: 16, marginTop: 0}}
-                    placeholder="Type password"
-                    onChangeText={value => this.setState({password: value})}
-                    value={this.state.password}/>
-                <View style={styles.button}>
+                <View style={[styles.button, {marginTop: 16}]}>
                     <Button
-                        title="Set token"
+                        title="openExact"
                         onPress={() => {
-                            SharedPreferences.setItem('token', this.state.token)
-                            TodorantWidget.forceUpdateAll()
+                            LauncherPlugin.openExact(0, {
+                                delay: 0
+                            })
                             BackHandler.exitApp()
                         }}/>
                 </View>
                 <View style={styles.button}>
                     <Button
-                        title="Set password"
+                        title="openAndAllowWhileIdle"
                         onPress={() => {
-                            SharedPreferences.setItem('password', this.state.password)
-                            TodorantWidget.forceUpdateAll()
+                            LauncherPlugin.openAndAllowWhileIdle(1, {
+                                method: "openAndAllowWhileIdle"
+                            })
                             BackHandler.exitApp()
                         }}/>
                 </View>
                 <View style={styles.button}>
                     <Button
-                        title="Force update"
+                        title="openExactAndAllowWhileIdle"
                         onPress={() => {
-                            TodorantWidget.forceUpdateAll()
+                            LauncherPlugin.openExactAndAllowWhileIdle(2, undefined)
                             BackHandler.exitApp()
                         }}/>
                 </View>
