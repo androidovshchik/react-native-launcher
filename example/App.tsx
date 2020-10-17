@@ -25,12 +25,12 @@ class App extends Component {
                         onPress={() => {
                             (async () => {
                                 try {
-                                    // @ts-ignore
                                     const isGranted = await LauncherPlugin.canDrawOverlays();
                                     ToastAndroid.show(`isGranted: ${isGranted}`, ToastAndroid.LONG);
                                 } catch (e) {
                                     console.error(e);
-                                    ToastAndroid.show(e.toString(), ToastAndroid.LONG);
+                                    // e.message will be true of false on Android 8 without patches
+                                    ToastAndroid.show(e.message, ToastAndroid.LONG);
                                 }
                             })();
                         }}/>
@@ -41,12 +41,12 @@ class App extends Component {
                         onPress={() => {
                             (async () => {
                                 try {
-                                    // @ts-ignore
                                     const result = await LauncherPlugin.requestDrawOverlays();
-                                    ToastAndroid.show(`Result: ${result}`, ToastAndroid.LONG);
+                                    ToastAndroid.show(`Result code: ${result}`, ToastAndroid.LONG);
                                 } catch (e) {
+                                    // only when activity is null
                                     console.error(e);
-                                    ToastAndroid.show(e.toString(), ToastAndroid.LONG);
+                                    ToastAndroid.show(e.message, ToastAndroid.LONG);
                                 }
                             })();
                         }}/>
@@ -83,6 +83,7 @@ class App extends Component {
                         title="getLaunchArgs"
                         onPress={() => {
                             LauncherPlugin.getLaunchArgs((args?: object) => {
+                                // afaik not null only for new intents
                                 ToastAndroid.show(JSON.stringify(args, null, 2), ToastAndroid.LONG);
                             })
                         }}/>
@@ -91,7 +92,7 @@ class App extends Component {
                     <Button
                         title="cancelOpen"
                         onPress={() => {
-                            // For example cancelling openAndAllowWhileIdle action
+                            // For example cancelling previous openAndAllowWhileIdle action
                             LauncherPlugin.cancelOpen(2000, {
                                 method: "openAndAllowWhileIdle"
                             })
