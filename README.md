@@ -46,7 +46,7 @@ An example can be found [here](https://github.com/androidovshchik/react-native-l
 
 `canDrawOverlays` may not work on Android Oreo. See [this question](https://stackoverflow.com/questions/46173460/why-in-android-8-method-settings-candrawoverlays-returns-false-when-user-has)
 
-`getLaunchArgs` only works for new intents and not for the first intent
+`getLaunchArgs` only works for new intents (For the first intent see [implementation](https://github.com/androidovshchik/react-native-launcher/blob/master/example/android/app/src/main/java/defpackage/example/MainActivity.kt))
 
 ### Credits
 
