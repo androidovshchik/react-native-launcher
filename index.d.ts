@@ -1,6 +1,6 @@
 declare module "react-native-launcher" {
-    const canDrawOverlays: (promise: Promise<boolean>) => void;
-    const requestDrawOverlays: (promise?: Promise<number>) => void;
+    const canDrawOverlays: () => Promise<boolean>;
+    const requestDrawOverlays: () => Promise<number>;
     const openExact: (delay: number, args?: object) => void;
     const openAndAllowWhileIdle: (delay: number, args?: object) => void;
     const openExactAndAllowWhileIdle: (delay: number, args?: object) => void;

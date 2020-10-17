@@ -153,14 +153,7 @@ class LauncherModule(reactContext: ReactApplicationContext) :
         data: Intent?
     ) {
         if (requestCode == REQUEST_OVERLAY) {
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    mPromise?.resolve(resultCode)
-                }
-                Activity.RESULT_CANCELED -> {
-                    mPromise?.reject("Permission request was cancelled")
-                }
-            }
+            mPromise?.resolve(resultCode)
             mPromise = null
         }
     }
