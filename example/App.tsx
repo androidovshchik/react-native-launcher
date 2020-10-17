@@ -29,7 +29,8 @@ class App extends Component {
                                     ToastAndroid.show(`isGranted: ${isGranted}`, ToastAndroid.LONG);
                                 } catch (e) {
                                     console.error(e);
-                                    // e.message will be true of false on Android 8 without patches
+                                    // here e.message will be true of false only on Android 8
+                                    // see https://stackoverflow.com/questions/46173460/why-in-android-8-method-settings-candrawoverlays-returns-false-when-user-has
                                     ToastAndroid.show(e.message, ToastAndroid.LONG);
                                 }
                             })();
