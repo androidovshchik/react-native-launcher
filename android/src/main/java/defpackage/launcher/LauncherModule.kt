@@ -6,6 +6,7 @@ import android.app.AlarmManager
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.SystemClock
 import android.provider.Settings
 import androidx.core.app.AlarmManagerCompat
@@ -17,16 +18,29 @@ import org.jetbrains.anko.intentFor
 class LauncherModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext), ActivityEventListener {
 
+    private var args: Bundle? = null
+
     private var mPromise: Promise? = null
+
+    init {
+        reactContext.addActivityEventListener(this)
+    }
 
     override fun getName() = "LauncherPlugin"
 
+    override fun onNewIntent(intent: Intent?) {
+        args = intent?.extras
+    }
+
     @ReactMethod
-    fun canDrawOverlays(callback: Callback) {
+    fun canDrawOverlays(promise: Promise) {
         with(reactApplicationContext) {
-            // Notice that it may be not working on Android O
-            // See https://stackoverflow.com/questions/46173460/why-in-android-8-method-settings-candrawoverlays-returns-false-when-user-has
-            callback.invoke(!isMarshmallowPlus() || Settings.canDrawOverlays(applicationContext))
+            val isGranted = !isMarshmallowPlus() || Settings.canDrawOverlays(applicationContext)
+            if (isOreo()) {
+                promise.reject(isGranted.toString())
+            } else {
+                promise.resolve(isGranted)
+            }
         }
     }
 
@@ -35,16 +49,14 @@ class LauncherModule(reactContext: ReactApplicationContext) :
     fun requestDrawOverlays(promise: Promise?) {
         with(reactApplicationContext) {
             if (isMarshmallowPlus()) {
-                val activity = currentActivity
-                if (activity != null) {
+                currentActivity?.let {
                     mPromise = promise
-                    addActivityEventListener(this@LauncherModule)
-                    activity.startActivityForResult(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION).apply {
+                    it.startActivityForResult(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION).apply {
                         data = Uri.parse("package:$packageName")
                     }, REQUEST_OVERLAY)
-                } else {
-                    promise?.reject("Activity is null")
+                    return
                 }
+                promise?.reject("Activity is null")
             } else {
                 promise?.resolve(Activity.RESULT_OK)
             }
@@ -112,6 +124,16 @@ class LauncherModule(reactContext: ReactApplicationContext) :
     }
 
     @ReactMethod
+    fun getLaunchArgs(callback: Callback) {
+        val args = args ?: currentActivity?.intent?.extras
+        if (args != null) {
+            callback.invoke(Arguments.fromBundle(args))
+        } else {
+            callback.invoke(null)
+        }
+    }
+
+    @ReactMethod
     fun cancelOpen(delay: Int, map: ReadableMap?) {
         with(reactApplicationContext) {
             alarmManager.cancel(
@@ -126,9 +148,6 @@ class LauncherModule(reactContext: ReactApplicationContext) :
                 )
             )
         }
-    }
-
-    override fun onNewIntent(intent: Intent?) {
     }
 
     override fun onActivityResult(
@@ -146,7 +165,6 @@ class LauncherModule(reactContext: ReactApplicationContext) :
                     mPromise?.reject("Permission request was cancelled")
                 }
             }
-            reactApplicationContext.removeActivityEventListener(this)
             mPromise = null
         }
     }
