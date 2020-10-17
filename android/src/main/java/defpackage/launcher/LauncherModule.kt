@@ -56,7 +56,7 @@ class LauncherModule(reactContext: ReactApplicationContext) :
                     }, REQUEST_OVERLAY)
                     return
                 }
-                promise?.reject("Activity is null")
+                promise?.reject("Current activity is null")
             } else {
                 promise?.resolve(Activity.RESULT_OK)
             }
@@ -126,11 +126,7 @@ class LauncherModule(reactContext: ReactApplicationContext) :
     @ReactMethod
     fun getLaunchArgs(callback: Callback) {
         val args = args ?: currentActivity?.intent?.extras
-        if (args != null) {
-            callback.invoke(Arguments.fromBundle(args))
-        } else {
-            callback.invoke(null)
-        }
+        callback.invoke(if (args != null) Arguments.fromBundle(args) else null)
     }
 
     @ReactMethod
