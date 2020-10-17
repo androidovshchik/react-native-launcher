@@ -21,6 +21,38 @@ class App extends Component {
             <View style={styles.container}>
                 <View style={[styles.button, {marginTop: 16}]}>
                     <Button
+                        title="canDrawOverlays"
+                        onPress={() => {
+                            (async () => {
+                                try {
+                                    // @ts-ignore
+                                    const isGranted = await LauncherPlugin.canDrawOverlays();
+                                    ToastAndroid.show(`isGranted: ${isGranted}`, ToastAndroid.LONG);
+                                } catch (e) {
+                                    console.error(e);
+                                    ToastAndroid.show(e.toString(), ToastAndroid.LONG);
+                                }
+                            })();
+                        }}/>
+                </View>
+                <View style={styles.button}>
+                    <Button
+                        title="requestDrawOverlays"
+                        onPress={() => {
+                            (async () => {
+                                try {
+                                    // @ts-ignore
+                                    const result = await LauncherPlugin.requestDrawOverlays();
+                                    ToastAndroid.show(`Result: ${result}`, ToastAndroid.LONG);
+                                } catch (e) {
+                                    console.error(e);
+                                    ToastAndroid.show(e.toString(), ToastAndroid.LONG);
+                                }
+                            })();
+                        }}/>
+                </View>
+                <View style={styles.button}>
+                    <Button
                         title="openExact"
                         onPress={() => {
                             LauncherPlugin.openExact(0, {
@@ -44,6 +76,25 @@ class App extends Component {
                         onPress={() => {
                             LauncherPlugin.openExactAndAllowWhileIdle(2, undefined)
                             BackHandler.exitApp()
+                        }}/>
+                </View>
+                <View style={styles.button}>
+                    <Button
+                        title="getLaunchArgs"
+                        onPress={() => {
+                            LauncherPlugin.getLaunchArgs((args?: object) => {
+                                ToastAndroid.show(JSON.stringify(args, null, 2), ToastAndroid.LONG);
+                            })
+                        }}/>
+                </View>
+                <View style={styles.button}>
+                    <Button
+                        title="cancelOpen"
+                        onPress={() => {
+                            // For example cancelling openAndAllowWhileIdle action
+                            LauncherPlugin.cancelOpen(2000, {
+                                method: "openAndAllowWhileIdle"
+                            })
                         }}/>
                 </View>
             </View>
