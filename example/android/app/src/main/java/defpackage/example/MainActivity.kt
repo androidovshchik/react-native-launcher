@@ -5,22 +5,25 @@ import android.os.Bundle
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 
+/**
+ * The way of getting launch arguments into component properties
+ */
 class MainDelegate(activity: ReactActivity, mainComponentName: String?) :
     ReactActivityDelegate(activity, mainComponentName) {
 
-    private var params: Bundle? = null
+    private var args: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        params = plainActivity.intent.extras
+        args = plainActivity.intent.extras
         super.onCreate(savedInstanceState)
     }
 
     override fun onNewIntent(intent: Intent?): Boolean {
-        params = intent?.extras
+        args = intent?.extras
         return super.onNewIntent(intent)
     }
 
-    override fun getLaunchOptions() = params
+    override fun getLaunchOptions() = args
 }
 
 class MainActivity : ReactActivity() {
@@ -31,7 +34,5 @@ class MainActivity : ReactActivity() {
      */
     override fun getMainComponentName() = "example"
 
-    override fun createReactActivityDelegate(): ReactActivityDelegate {
-        return MainDelegate(this, mainComponentName)
-    }
+    override fun createReactActivityDelegate() = MainDelegate(this, mainComponentName)
 }

@@ -24,7 +24,7 @@ class App extends Component {
                         title="openExact"
                         onPress={() => {
                             LauncherPlugin.openExact(0, {
-                                delay: 0
+                                argDelay: 0
                             })
                             BackHandler.exitApp()
                         }}/>
@@ -33,10 +33,9 @@ class App extends Component {
                     <Button
                         title="openAndAllowWhileIdle"
                         onPress={() => {
-                            LauncherPlugin.openAndAllowWhileIdle(1, {
+                            LauncherPlugin.openAndAllowWhileIdle(2000, {
                                 method: "openAndAllowWhileIdle"
                             })
-                            BackHandler.exitApp()
                         }}/>
                 </View>
                 <View style={styles.button}>
