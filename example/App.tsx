@@ -24,15 +24,16 @@ class App extends Component {
                         title="canDrawOverlays"
                         onPress={() => {
                             (async () => {
+                                let isGranted: boolean | string;
                                 try {
-                                    const isGranted = await LauncherPlugin.canDrawOverlays();
-                                    ToastAndroid.show(`isGranted: ${isGranted}`, ToastAndroid.LONG);
+                                    isGranted = await LauncherPlugin.canDrawOverlays();
                                 } catch (e) {
                                     console.error(e);
-                                    // here e.message will be true of false only on Android 8
+                                    // here e.message will be "true" of "false" only on Android 8
                                     // see https://stackoverflow.com/questions/46173460/why-in-android-8-method-settings-candrawoverlays-returns-false-when-user-has
-                                    ToastAndroid.show(e.message, ToastAndroid.LONG);
+                                    isGranted = e.message
                                 }
+                                ToastAndroid.show(`isGranted: ${isGranted}`, ToastAndroid.LONG);
                             })();
                         }}/>
                 </View>
@@ -40,16 +41,15 @@ class App extends Component {
                     <Button
                         title="requestDrawOverlays"
                         onPress={() => {
-                            (async () => {
-                                try {
-                                    const result = await LauncherPlugin.requestDrawOverlays();
+                            LauncherPlugin.requestDrawOverlays()
+                                .then(result => {
                                     ToastAndroid.show(`Result code: ${result}`, ToastAndroid.LONG);
-                                } catch (e) {
+                                })
+                                .catch(e => {
                                     // only when activity is null
                                     console.error(e);
                                     ToastAndroid.show(e.message, ToastAndroid.LONG);
-                                }
-                            })();
+                                });
                         }}/>
                 </View>
                 <View style={styles.button}>
